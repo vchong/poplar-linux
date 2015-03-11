@@ -210,4 +210,7 @@ config POPLAR_MSP
 	  Include common and MSP code to support the HiSilicon
 	  Poplar board.
 endmenu
+
+source "drivers/tee/Kconfig"
+
 endmenu
