@@ -375,6 +375,16 @@
 			status = "disabled";
 		};
 
+		combphy1: combphy1 {
+			compatible = "hisilicon,hi3798cv200-combphy";
+			#phy-cells = <1>;
+			clocks = <&crg HISTB_COMBPHY1_CLK>;
+			resets = <&crg 0x188 12>;
+			assigned-clocks = <&crg HISTB_COMBPHY1_CLK>;
+			assigned-clock-rates = <100000000>;
+			hisilicon,peripheral-syscon = <&peri_ctrl>;
+		};
+
 		gmac0: ethernet@9840000 {
 			compatible = "hisilicon,hi3798cv200-gmac", "hisilicon,hisi-gmac-v2";
 			reg = <0x9840000 0x1000>,
