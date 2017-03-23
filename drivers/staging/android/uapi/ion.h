@@ -32,6 +32,8 @@ typedef int ion_user_handle_t;
  *				 carveout heap, allocations are physically
  *				 contiguous
  * @ION_HEAP_TYPE_DMA:		 memory allocated via DMA API
+ * @ION_HEAP_TYPE_UNMAPPED:	 memory not intended to be mapped into the
+ *				 linux address space unless for debug cases
  * @ION_NUM_HEAPS:		 helper for iterating over heaps, a bit mask
  *				 is used to identify the heaps, so only 32
  *				 total heap types are supported
@@ -46,6 +48,7 @@ enum ion_heap_type {
 	/* backwards compatible with v3.4 ion */
 	ION_HEAP_ID_CMA = 15, /* cma: ddr */
 	ION_HEAP_ID_TEE_SEC_MEM, /* secure mem in TEE */
+	ION_HEAP_TYPE_UNMAPPED,
 	ION_HEAP_TYPE_CUSTOM, /*
 			       * must be last so device specific heaps always
 			       * are at the end of this enum
