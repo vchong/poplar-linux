@@ -204,6 +204,8 @@
 			clocks = <&crg HISTB_MMC_CIU_CLK>,
 				 <&crg HISTB_MMC_BIU_CLK>;
 			clock-names = "ciu", "biu";
+			resets = <&crg 0xa0 4>;
+			reset-names = "reset";
 		};
 
 		gpio0: gpio@8b20000 {
