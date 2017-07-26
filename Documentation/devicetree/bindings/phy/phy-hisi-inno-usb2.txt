@@ -1,0 +1,31 @@
+HiSilicon INNO USB2 PHY
+
+Required properties:
+- compatible: Should be one of the following strings:
+	"hisilicon,inno-usb2-phy",
+	"hisilicon,hi3798cv200-usb2-phy".
+- #phy-cells: Should be 1. The specifier is the index of the PHY port to
+  reference.
+- hisilicon,peripheral-syscon: The phandle of syscon used to control PHY,
+  followed by a integer cell which defines the syscon register offset used
+  to talk to PHY.
+- clocks: The phandle and clock specifier pair for reference clock utmi_refclk.
+- resets: The list of phandle and reset specifier pairs for each reset signal
+  in reset-names.
+- reset-names: Should contain "power_on", "utmi0" and "utmi1". The "utmi1"
+  should exist only if the device has two PHY port.
+
+Refer to phy/phy-bindings.txt for the generic PHY binding properties
+
+Example:
+
+	usb2_phy1: usb2-phy1 {
+		compatible = "hisilicon,hi3798cv200-usb2-phy";
+		#phy-cells = <1>;
+		hisilicon,peripheral-syscon = <&peri_ctrl 0x120>;
+		clocks = <&crg HISTB_USB2_PHY1_REF_CLK>;
+		resets = <&crg 0xbc 4>,
+			 <&crg 0xbc 8>,
+			 <&crg 0xbc 9>;
+		reset-names = "power_on", "utmi0", "utmi1";
+	};
