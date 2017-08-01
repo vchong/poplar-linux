@@ -106,11 +106,6 @@
 			#reset-cells = <2>;
 		};
 
-		peri_ctrl: peri_ctrl@8a20000 {
-			compatible = "hisilicon,hi3798cv200-perictrl", "syscon";
-			reg = <0x8a20000 0x1000>;
-		};
-
 		uart0: serial@8b00000 {
 			compatible = "arm,pl011", "arm,primecell";
 			reg = <0x8b00000 0x1000>;
