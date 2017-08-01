@@ -63,6 +63,10 @@
 	};
 };
 
+&ehci {
+	status = "okay";
+};
+
 &gmac1 {
 	status = "okay";
 	#address-cells = <1>;
@@ -146,6 +150,10 @@
 	status = "okay";
 };
 
+&ohci {
+	status = "okay";
+};
+
 &spi0 {
 	status = "okay";
 	label = "LS-SPI0";
@@ -160,3 +168,7 @@
 	label = "LS-UART0";
 };
 /* No optional LS-UART1 on Low Speed Expansion Connector. */
+
+&usb2_phy1 {
+	status = "okay";
+};
