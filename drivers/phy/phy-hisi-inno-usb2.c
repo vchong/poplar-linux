@@ -20,9 +20,11 @@
 #include <linux/clk.h>
 #include <linux/delay.h>
 #include <linux/io.h>
+#include <linux/mfd/syscon.h>
 #include <linux/module.h>
 #include <linux/platform_device.h>
 #include <linux/phy/phy.h>
+#include <linux/regmap.h>
 #include <linux/reset.h>
 
 #define INNO_PHY_PORT_NUM	2
@@ -40,6 +42,9 @@
 #define PHY_TEST_RST		BIT(23)	/* low active */
 #define PHY_CLK_ENABLE		BIT(2)
 
+#define PERI_USB3		0x12c
+#define USB2_2P_CHIPID		BIT(28)
+
 struct hisi_inno_phy_port {
 	struct phy *phy;
 	struct device *dev;
@@ -53,6 +58,10 @@ struct hisi_inno_phy_priv {
 	struct hisi_inno_phy_port ports[INNO_PHY_PORT_NUM];
 	u32 port_num;
 };
+
+static unsigned chipid = 0;
+module_param(chipid, uint, 0);
+MODULE_PARM_DESC(chipid, "USB controller select, default=0");
 
 static void hisi_inno_phy_write_reg(struct hisi_inno_phy_priv *priv,
 				    u8 port, u32 addr, u32 data)
@@ -162,6 +171,7 @@ static int hisi_inno_phy_probe(struct platform_device *pdev)
 	struct device_node *np = dev->of_node;
 	struct hisi_inno_phy_priv *priv;
 	struct phy_provider *provider;
+	struct regmap *syscon;
 	struct resource *res;
 	int ret, i;
 
@@ -175,6 +185,16 @@ static int hisi_inno_phy_probe(struct platform_device *pdev)
 		ret = PTR_ERR(priv->mmio);
 		return ret;
 	}
+
+	syscon = syscon_node_to_regmap(np->parent);
+	if (IS_ERR(syscon))
+		return PTR_ERR(syscon);
+
+	if (chipid == 1)
+		regmap_update_bits(syscon, PERI_USB3, USB2_2P_CHIPID,
+				   USB2_2P_CHIPID);
+	else
+		regmap_update_bits(syscon, PERI_USB3, USB2_2P_CHIPID, 0);
 
 	priv->ref_clk = devm_clk_get(dev, NULL);
 	if (IS_ERR(priv->ref_clk))
