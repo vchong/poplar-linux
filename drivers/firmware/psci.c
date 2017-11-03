@@ -176,11 +176,9 @@ static int psci_cpu_on(unsigned long cpuid, unsigned long entry_point)
 	int err;
 	u32 fn;
 
-	return 0;
-
-	//fn = psci_function_id[PSCI_FN_CPU_ON];
-	//err = invoke_psci_fn(fn, cpuid, entry_point, 0);
-	//return psci_to_linux_errno(err);
+	fn = psci_function_id[PSCI_FN_CPU_ON];
+	err = invoke_psci_fn(fn, cpuid, entry_point, 0);
+	return psci_to_linux_errno(err);
 }
 
 static int psci_migrate(unsigned long cpuid)
